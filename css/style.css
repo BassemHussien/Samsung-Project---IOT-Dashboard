@@ -1,0 +1,181 @@
+*
+{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    color: white;
+    text-align: center; 
+    background-color: black;
+}
+h1
+{
+    margin: 30px;
+}
+.container
+{
+    padding:10px ;
+    border: 3px white solid;
+    width: 100%;
+    height: fit-content;
+    margin: auto;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    grid-template-rows:repeat(4,130px);
+    grid-template-areas: 
+    "device1 device1 device2 device2 device3 device4 device4 "
+    "device5 device6 device2 device2 device7 device8 device8"
+    "device9 device9 device10 device10 device11 device11 device12"
+    "device13 device14 device10 device10 device11 device11 device15";
+    gap:10px;
+}
+
+.container .device
+{
+    /* background-color: rgb(9, 143, 0); */
+    background-color:#333;
+    border-radius: 3px;
+    transition: background-color .6s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.container .device:hover
+{
+    background-color: #085b61;
+    cursor: pointer;
+
+}
+.device1
+{
+    grid-area:device1 ;
+}
+.device2
+{
+    grid-area:device2 ;
+}
+.device3
+{
+    grid-area:device3 ;
+}
+.device4
+{
+    grid-area:device4 ;
+}
+.device5
+{
+    grid-area:device5 ;
+}
+.device6
+{
+    grid-area:device6 ;
+}
+.device7
+{
+    grid-area:device7 ;
+}
+.device8
+{
+    grid-area:device8 ;
+}
+.device9
+{
+    grid-area:device9 ;
+}
+.device10
+{
+    grid-area:device10 ;
+}
+.device11
+{
+    grid-area:device11 ;
+}
+.device12
+{
+    grid-area:device12 ;
+}
+.device13
+{
+    grid-area:device13 ;
+}
+.device14
+{
+    grid-area:device14 ;
+}
+.device15
+{
+    grid-area:device15 ;
+}
+
+/* From Uiverse.io by andrew-demchenk0 */ 
+.switch {
+    --input-focus: #2d8cf0;
+    --bg-color: #fff;
+    --bg-color-alt: #666;
+    --main-color: #323232;
+    --input-out-of-focus: #ccc;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    width: 70px;
+    height: 36px;
+    margin-top: 20px;
+    transform: translateX(calc(50% - 10px));
+  }
+  
+  .toggle {
+    opacity: 0;
+  }
+  
+  .slider {
+    box-sizing: border-box;
+    border-radius: 100px;
+    border: 2px solid var(--main-color);
+    box-shadow: 4px 4px var(--main-color);
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--input-out-of-focus);
+    transition: 0.3s;
+  }
+  
+  .slider:before {
+    content: "off";
+    box-sizing: border-box;
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    left: 2px;
+    bottom: 1px;
+    border: 2px solid var(--main-color);
+    border-radius: 100px;
+    background-color: var(--bg-color);
+    color: var(--main-color);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 25px;
+    transition: 0.3s;
+  }
+  
+  .toggle:checked + .slider {
+    background-color: var(--input-focus);
+    transform: translateX(-32px);
+  }
+  
+  .toggle:checked + .slider:before {
+    content: "on";
+    transform: translateX(32px);
+  }
+
