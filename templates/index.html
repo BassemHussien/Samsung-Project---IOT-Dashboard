@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart City Monitoring System</title>
+    <link rel="stylesheet" href="../static/style.css">
+	<script src="../static/gauge.min.js"></script>
+</head>
+<body>
+    <h1>Smart City Monitoring System</h1>
+
+    <div id="gauges">
+        <div id="temperature-gauge-container">
+            <h2>Temperature (°C)</h2>
+            <canvas id="temperature-gauge" width="300" height="300"></canvas>
+        </div>
+        <div id="humidity-gauge-container">
+            <h2>Humidity (%)</h2>
+            <canvas id="humidity-gauge" width="300" height="300"></canvas>
+        </div>
+    </div>
+
+    <div id="controls">
+        <h2>LED Control</h2>
+        <button onclick="toggleLED('led1')">Toggle LED 1</button>
+        <button onclick="toggleLED('led2')">Toggle LED 2</button>
+    </div>
+
+    <script src="../static/script.js"></script>    
+</body>
+</html>
