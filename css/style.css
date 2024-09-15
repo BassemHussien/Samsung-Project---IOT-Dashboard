@@ -179,3 +179,55 @@ h1
     transform: translateX(32px);
   }
 
+
+
+  /* Media Query */
+
+  @media only screen and (max-width: 1200px) {
+    .container {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(4, 130px);
+        grid-template-areas:
+        "device1 device1 device2 device2 device3"
+        "device5 device6 device2 device2 device7"
+        "device9 device9 device10 device10 device11"
+        "device13 device14 device10 device10 device8";
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .container {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(6, 130px);
+        grid-template-areas:
+        "device1 device1 device2"
+        "device5 device6 device3"
+        "device9 device9 device4"
+        "device10 device10 device7"
+        "device11 device12 device8"
+        "device13 device14 device15";
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(15, 130px);
+        grid-template-areas:
+        "device1"
+        "device2"
+        "device3"
+        "device4"
+        "device5"
+        "device6"
+        "device7"
+        "device8"
+        "device9"
+        "device10"
+        "device11"
+        "device12"
+        "device13"
+        "device14"
+        "device15";
+    }
+}
