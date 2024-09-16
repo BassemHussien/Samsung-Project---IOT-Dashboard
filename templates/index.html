@@ -9,22 +9,20 @@
 </head>
 <body>
     <h1>Smart City Monitoring System</h1>
-
-    <div id="gauges">
-        <div id="temperature-gauge-container">
-            <h2>Temperature (°C)</h2>
-            <canvas id="temperature-gauge" width="300" height="300"></canvas>
+    <div class='container'>
+        <div id="temperature-gauge-container" class="temp">
+            <h2>Temperature (<span id="temp-value">0</span>°C)</h2>
+            <canvas id="temperature-gauge" ></canvas>
         </div>
-        <div id="humidity-gauge-container">
-            <h2>Humidity (%)</h2>
-            <canvas id="humidity-gauge" width="300" height="300"></canvas>
+        <div id="humidity-gauge-container" class="humidity">
+            <h2>Humidity (<span id="humidity-value">0</span>%)</h2>
+            <canvas id="humidity-gauge" ></canvas>
         </div>
-    </div>
-
-    <div id="controls">
-        <h2>LED Control</h2>
-        <button onclick="toggleLED('led1')">Toggle LED 1</button>
-        <button onclick="toggleLED('led2')">Toggle LED 2</button>
+        <div id="controls" class="control">
+            <h2>LED Control</h2>
+            <button onclick="toggleLED('led1')" id="led1">Toggle LED 1</button>
+            <button onclick="toggleLED('led2')" id="led2">Toggle LED 2</button>
+        </div>
     </div>
 
     <script src="../static/script.js"></script>    

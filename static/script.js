@@ -1,8 +1,26 @@
+let Led1 = document.getElementById('led1');
+let Led2 = document.getElementById('led2');
+
+// Function to toggle LED states
 function toggleLED(led) {
     fetch(`/toggle/${led}`)
         .then(response => response.json())
-        .then(data => {
-            alert(data.message);
+        .then(() => {
+            if (led === 'led1') {
+                // Toggle the background color of LED1 button
+                if (Led1.style.backgroundColor === "rgb(76, 175, 80)" || Led1.style.backgroundColor === "") {
+                    Led1.style.backgroundColor = 'red';  // Turn off LED1 (red)
+                } else {
+                    Led1.style.backgroundColor = '#4CAF50';  // Turn on LED1 (green)
+                }
+            } else if (led === 'led2') {
+                // Toggle the background color of LED2 button
+                if (Led2.style.backgroundColor === "rgb(76, 175, 80)" || Led2.style.backgroundColor === "") {
+                    Led2.style.backgroundColor = 'red';  // Turn off LED2 (red)
+                } else {
+                    Led2.style.backgroundColor = '#4CAF50';  // Turn on LED2 (green)
+                }
+            }
         });
 }
 
@@ -10,7 +28,8 @@ function updateTemperature() {
     fetch('/temperature')
         .then(response => response.json())
         .then(data => {
-            document.getElementById('temp-value').innerText = data.temperature;
+            console.log(data.temperature);
+            document.getElementById('temp-value').textContent = data.temperature;
         });
 }
 
