@@ -19,18 +19,17 @@ h1
 {
     padding:10px ;
     border: 3px white solid;
+    border-radius: 5px;
     width: 100%;
     height: fit-content;
     margin: auto;
     margin-top: 20px;
     display: grid;
-    grid-template-columns: repeat(7,1fr);
-    grid-template-rows:repeat(4,130px);
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows:repeat(2,300px);
     grid-template-areas: 
-    "device1 device1 device2 device2 device3 device4 device4 "
-    "device5 device6 device2 device2 device7 device8 device8"
-    "device9 device9 device10 device10 device11 device11 device12"
-    "device13 device14 device10 device10 device11 device11 device15";
+    "device1 device2"
+    "device3 device4";
     gap:10px;
 }
 
@@ -112,70 +111,68 @@ h1
     grid-area:device15 ;
 }
 
-/* From Uiverse.io by andrew-demchenk0 */ 
-.switch {
-    --input-focus: #2d8cf0;
-    --bg-color: #fff;
-    --bg-color-alt: #666;
-    --main-color: #323232;
-    --input-out-of-focus: #ccc;
+/* Toggle led 1 */
+/* From Uiverse.io by vinodjangid07 */ 
+.toggle-led1{
+  margin-top: 10px;
+}
+#checkbox {
+    display: none;
+  }
+  
+  .switch {
+    /* display: flex; */
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
     width: 70px;
-    height: 36px;
-    margin-top: 20px;
-    transform: translateX(calc(50% - 10px));
-  }
-  
-  .toggle {
-    opacity: 0;
-  }
-  
-  .slider {
-    box-sizing: border-box;
-    border-radius: 100px;
-    border: 2px solid var(--main-color);
-    box-shadow: 4px 4px var(--main-color);
-    position: absolute;
+    height: 70px;
+    background-color: rgb(99, 99, 99);
+    border-radius: 50%;
+    z-index: 1;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--input-out-of-focus);
-    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgb(126, 126, 126);
+    box-shadow: 0px 0px 3px rgb(2, 2, 2) inset;
+    transition: drop-shadow 0.3s;
   }
-  
-  .slider:before {
-    content: "off";
-    box-sizing: border-box;
-    height: 30px;
-    width: 30px;
-    position: absolute;
-    left: 2px;
-    bottom: 1px;
-    border: 2px solid var(--main-color);
-    border-radius: 100px;
-    background-color: var(--bg-color);
-    color: var(--main-color);
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    line-height: 25px;
-    transition: 0.3s;
+  .switch svg {
+    width: 1.2em;
   }
-  
-  .toggle:checked + .slider {
-    background-color: var(--input-focus);
-    transform: translateX(-32px);
+  .switch svg path {
+    fill: rgb(48, 48, 48);
   }
-  
-  .toggle:checked + .slider:before {
-    content: "on";
-    transform: translateX(32px);
+  #checkbox:checked + .switch {
+    box-shadow: 0px 0px 1px rgb(151, 243, 255) inset,
+      0px 0px 2px rgb(151, 243, 255) inset, 0px 0px 10px rgb(151, 243, 255) inset,
+      0px 0px 40px rgb(151, 243, 255), 0px 0px 100px rgb(151, 243, 255),
+      0px 0px 5px rgb(151, 243, 255);
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(146, 180, 184);
   }
-
+  #checkbox:checked + .switch svg {
+    filter: drop-shadow(0px 0px 5px rgb(151, 243, 255));
+  }
+  #checkbox:checked + .switch svg path {
+    fill: rgb(255, 255, 255);
+  }
+/* Temperature Gauge */
+.temp-gauge {
+    background-color: #ffffff00;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.temperature-gauge{
+  position: relative;
+}
+.temp-val{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.device1 h2{
+  margin-bottom: 20px;
+}
