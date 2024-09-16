@@ -1,0 +1,178 @@
+*
+{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    color: white;
+    text-align: center; 
+    background-color: black;
+}
+h1
+{
+    margin: 30px;
+}
+.container
+{
+    padding:10px ;
+    border: 3px white solid;
+    border-radius: 5px;
+    width: 100%;
+    height: fit-content;
+    margin: auto;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows:repeat(2,300px);
+    grid-template-areas: 
+    "device1 device2"
+    "device3 device4";
+    gap:10px;
+}
+
+.container .device
+{
+    /* background-color: rgb(9, 143, 0); */
+    background-color:#333;
+    border-radius: 3px;
+    transition: background-color .6s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.container .device:hover
+{
+    background-color: #085b61;
+    cursor: pointer;
+
+}
+.device1
+{
+    grid-area:device1 ;
+}
+.device2
+{
+    grid-area:device2 ;
+}
+.device3
+{
+    grid-area:device3 ;
+}
+.device4
+{
+    grid-area:device4 ;
+}
+.device5
+{
+    grid-area:device5 ;
+}
+.device6
+{
+    grid-area:device6 ;
+}
+.device7
+{
+    grid-area:device7 ;
+}
+.device8
+{
+    grid-area:device8 ;
+}
+.device9
+{
+    grid-area:device9 ;
+}
+.device10
+{
+    grid-area:device10 ;
+}
+.device11
+{
+    grid-area:device11 ;
+}
+.device12
+{
+    grid-area:device12 ;
+}
+.device13
+{
+    grid-area:device13 ;
+}
+.device14
+{
+    grid-area:device14 ;
+}
+.device15
+{
+    grid-area:device15 ;
+}
+
+/* Toggle led 1 */
+/* From Uiverse.io by vinodjangid07 */ 
+.toggle-led1{
+  margin-top: 10px;
+}
+#checkbox {
+    display: none;
+  }
+  
+  .switch {
+    /* display: flex; */
+    position: relative;
+    width: 70px;
+    height: 70px;
+    background-color: rgb(99, 99, 99);
+    border-radius: 50%;
+    z-index: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgb(126, 126, 126);
+    box-shadow: 0px 0px 3px rgb(2, 2, 2) inset;
+    transition: drop-shadow 0.3s;
+  }
+  .switch svg {
+    width: 1.2em;
+  }
+  .switch svg path {
+    fill: rgb(48, 48, 48);
+  }
+  #checkbox:checked + .switch {
+    box-shadow: 0px 0px 1px rgb(151, 243, 255) inset,
+      0px 0px 2px rgb(151, 243, 255) inset, 0px 0px 10px rgb(151, 243, 255) inset,
+      0px 0px 40px rgb(151, 243, 255), 0px 0px 100px rgb(151, 243, 255),
+      0px 0px 5px rgb(151, 243, 255);
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(146, 180, 184);
+  }
+  #checkbox:checked + .switch svg {
+    filter: drop-shadow(0px 0px 5px rgb(151, 243, 255));
+  }
+  #checkbox:checked + .switch svg path {
+    fill: rgb(255, 255, 255);
+  }
+/* Temperature Gauge */
+.temp-gauge {
+    background-color: #ffffff00;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.temperature-gauge{
+  position: relative;
+}
+.temp-val{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.device1 h2{
+  margin-bottom: 20px;
+}
