@@ -10,6 +10,7 @@ body
     color: white;
     text-align: center; 
     background-color: black;
+    user-select: none;
 }
 h1
 {
@@ -175,4 +176,60 @@ h1
 }
 .device1 h2{
   margin-bottom: 20px;
+}
+.navBar{
+  display: flex;
+  justify-content: flex-end;
+  height: 50px;
+  padding: 10px 10px 0 0;
+  background-color: rgba(55, 128, 255, 0.616);
+  position: relative;
+}
+.notification{
+  font-size: 30px;
+  background-color: yellow;
+  color: black;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid rgb(255, 255, 0);
+  box-shadow: 0 0 10px rgb(255, 255, 0);
+}
+.notification::after{
+  content: ""; /* Add content */
+  display: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: display 0.5s;
+}
+.show-notify .notification::after{
+  display: block;
+}
+.notify-msg{
+  position: absolute;
+  top: 60%;
+  right: -10%;
+  width: 220px;
+  height: fit-content;
+  transform: translate(-50%);
+  background-color: rgb(255, 185, 109);
+  border-radius: 10px;
+  border: 3px solid rgb(255, 0, 0);
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.notify-msg #msgP{
+  color: black;
+  font-size: 20px;
+  font-weight: 400;
+  font-family: Arial, sans-serif;
+}
+.show-msg .notify-msg{
+  display: flex;
 }

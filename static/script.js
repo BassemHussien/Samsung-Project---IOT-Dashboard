@@ -6,13 +6,7 @@ const client = mqtt.connect('wss://3bb3497d4e2c468d881b469d323d65ee.s1.eu.hivemq
   password: '12345678Aa', // Replace with your HiveMQ Cloud password
 });
 
-// Function to update the gauge
-function updateGauge(value) {
-  gauge.set(value); // Update gauge with new temperature value
-  tempVal.textContent = value;
-}
-
-let sound; // Initialize sound with a default value (so the gauge doesn't start with null)
+let sound = 0; // Initialize sound with a default value (so the gauge doesn't start with null)
 
 // MQTT event handlers
 client.on('connect', () => {
@@ -41,9 +35,10 @@ client.on('message', (topic, message) => {
 });
 
 // Set an interval to update the gauge every 1 second with the latest sound value
-setInterval(() => {
-    console.log(sound);
-}, 5000); // 1 second interval
+// setInterval(() => {
+    // ++sound;
+    // console.log(sound);
+// }, 1500); // 1 second interval
 
 // Set up the gauge (using the code you provided)
 var opts = {
@@ -69,7 +64,51 @@ var gauge = new Donut(tempGauge).setOptions(opts);
 gauge.maxValue = 50; // Set max gauge value
 gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
 gauge.animationSpeed = 32; // Set animation speed (32 is default value)
+
+/* Notifications */
+let nav = document.querySelector(".navBar");
+let msg = "No messages found"; //Default msg
+let msgp = document.getElementById("msgP");
+
+// MQTT event handlers
+client.on('connect', () => {
+  console.log('Connected to MQTT broker');
+  client.subscribe('sound_message', (err) => {
+    if (!err) {
+      console.log('Subscribed to sound_message topic');
+    } else {
+      console.error('Failed to subscribe:', err);
+    }
+  });
+});
+
+// Receive messages from the MQTT broker and update the sound value
+client.on('message', (topic, message) => {
+  console.log('Received message on topic:', topic, 'with payload:', message.toString());
+
+  if (topic === 'sound_message') {
+    msg = message.toString(); // Update the sound variable
+    if (msg) {
+      console.log('Valid MSG from sound LVL received: ', msg);
+    } else {
+      console.error('Invalid MSG received: ', message.toString());
+    }
+  }
+});
 setInterval(() => {
-    gauge.set(sound); // Set the gauge value to 0
-    tempVal.textContent = Math.floor(sound).toFixed(2);
+  gauge.set(sound); // Set the gauge value to 0
+  tempVal.textContent = Math.floor(sound).toFixed(2);
+  if (sound >= 25) {
+    nav.classList.add("show-notify");
+  }
+  else{
+    
+  }
 }, 1000);
+nav.addEventListener("click", () => {
+  if (msg) {
+    nav.classList.toggle("show-msg");
+    nav.classList.remove("show-notify");
+    msgp.innerText = msg;
+  }
+});
