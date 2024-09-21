@@ -1,55 +1,52 @@
-*
-{
+*{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+    user-select: none;
+    font-family: 'Lucida Sans Unicode';
 }
 
 body
 {
-    color: white;
+    color: rgb(15, 0, 131);
     text-align: center; 
-    background-color: black;
-    user-select: none;
+    background-color: white;
 }
-h1
-{
-    margin: 30px;
-}
-.container
+.Container
 {
     padding:10px ;
-    border: 3px white solid;
     border-radius: 5px;
     width: 100%;
     height: fit-content;
     margin: auto;
-    margin-top: 20px;
+    margin-top: 90px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows:repeat(2,300px);
-    grid-template-areas: 
+    grid-template-rows:repeat(2, 300px);
+    grid-template-areas:
     "device1 device2"
     "device3 device4";
-    gap:10px;
+    gap: 10px;
+    z-index: 1;
 }
-
-.container .device
+.Container .device
 {
-    /* background-color: rgb(9, 143, 0); */
-    background-color:#333;
-    border-radius: 3px;
-    transition: background-color .6s ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  background: radial-gradient(circle, #807bcae9, #827ebce9, #6460a5e9, #4957aae9);
+  background-color:#00000065;
+  color: #001789;
+  border-radius: 3px;
+  padding-top: 20px;
+  transition: background-color .5s ease-in-out;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
 }
-.container .device:hover
-{
+.Container .device:hover,
+.Container .device:active{
     background-color: #085b61;
     cursor: pointer;
-
 }
 .device1
 {
@@ -111,52 +108,19 @@ h1
 {
     grid-area:device15 ;
 }
-
-/* Toggle led 1 */
-/* From Uiverse.io by vinodjangid07 */ 
-.toggle-led1{
-  margin-top: 10px;
+/* Background Img */
+.background-img{
+  background-image: url(circuit-background.svg);
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-size: 500px;
+  background-repeat: repeat;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -9999;
 }
-#checkbox {
-    display: none;
-  }
-  
-  .switch {
-    /* display: flex; */
-    position: relative;
-    width: 70px;
-    height: 70px;
-    background-color: rgb(99, 99, 99);
-    border-radius: 50%;
-    z-index: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgb(126, 126, 126);
-    box-shadow: 0px 0px 3px rgb(2, 2, 2) inset;
-    transition: drop-shadow 0.3s;
-  }
-  .switch svg {
-    width: 1.2em;
-  }
-  .switch svg path {
-    fill: rgb(48, 48, 48);
-  }
-  #checkbox:checked + .switch {
-    box-shadow: 0px 0px 1px rgb(151, 243, 255) inset,
-      0px 0px 2px rgb(151, 243, 255) inset, 0px 0px 10px rgb(151, 243, 255) inset,
-      0px 0px 40px rgb(151, 243, 255), 0px 0px 100px rgb(151, 243, 255),
-      0px 0px 5px rgb(151, 243, 255);
-    border: 2px solid rgb(255, 255, 255);
-    background-color: rgb(146, 180, 184);
-  }
-  #checkbox:checked + .switch svg {
-    filter: drop-shadow(0px 0px 5px rgb(151, 243, 255));
-  }
-  #checkbox:checked + .switch svg path {
-    fill: rgb(255, 255, 255);
-  }
 /* Temperature Gauge */
 .temp-gauge {
     background-color: #ffffff00;
@@ -174,58 +138,79 @@ h1
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.device1 h2{
-  margin-bottom: 20px;
-}
+
+/* Nav Bar */
 .navBar{
   display: flex;
-  justify-content: flex-end;
-  height: 50px;
-  padding: 10px 10px 0 0;
-  background-color: rgba(55, 128, 255, 0.616);
-  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  background-color: rgba(95, 142, 224, 0.94);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+.navBar::after{
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  left: 0;
+  top: 0;
+  border-bottom: 2px solid rgb(0, 59, 162); 
+  box-shadow: 0 10px 70px rgb(82, 139, 255);
+  z-index: -1;
+}
+.navBar p{
+  font-size: 150%;
+  margin: auto;
+  font-weight: 600;
+  word-spacing: 5px;
+  letter-spacing: 2px;
 }
 .notification{
   font-size: 30px;
-  background-color: yellow;
-  color: black;
-  border-radius: 50%;
+  color: rgb(7, 0, 143);
+  border-radius: 35%;
   cursor: pointer;
+  border: 2px solid rgb(0, 0, 161);
+  box-shadow: 0 0 5px rgb(0, 32, 213);
   position: relative;
-  border: 2px solid rgb(255, 255, 0);
-  box-shadow: 0 0 10px rgb(255, 255, 0);
 }
-.notification::after{
-  content: ""; /* Add content */
+.notify-ico::after{
+  content: "";
   display: none;
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background-color: red;
   position: absolute;
-  top: 0;
-  right: 0;
-  transition: display 0.5s;
+  top: 8px;
+  right: 8px;
 }
-.show-notify .notification::after{
+.show-notify .notify-ico::after{
   display: block;
 }
 .notify-msg{
   position: absolute;
-  top: 60%;
-  right: -10%;
+  top: 30px;
+  right: -80px;
   width: 220px;
-  height: fit-content;
-  transform: translate(-50%);
-  background-color: rgb(255, 185, 109);
-  border-radius: 10px;
-  border: 3px solid rgb(255, 0, 0);
+  padding: 15px 10px 10px 0;
+  transform: translate(-50%, 0);
+  background-image: linear-gradient(to right top, #b25d8d, #a46298, #9367a0, #816ba5, #6f6fa6, #6177ad, #517fb2, #4287b4, #2c96bb, #19a4be, #20b1bb, #3dbeb5);
+  border-radius: 11% 10% 33% 10% / 10% 0% 70% 10% ;
+  border: 2px solid rgba(34,34,97,1);
+  box-shadow: 0 0 10px rgb(34,34,150);
   justify-content: center;
   align-items: center;
   display: none;
 }
 .notify-msg #msgP{
-  color: black;
+  color: wheat;
   font-size: 20px;
   font-weight: 400;
   font-family: Arial, sans-serif;
@@ -233,3 +218,131 @@ h1
 .show-msg .notify-msg{
   display: flex;
 }
+
+
+
+/* Media Query */
+@media only screen and (max-width: 620px){
+  .Container
+  {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows:repeat(4, 300px);
+    grid-template-areas: 
+    "device1"
+    "device2"
+    "device3"
+    "device4";
+  }
+  .navBar p{
+    font-size: 120%;
+    margin: auto;
+    font-weight: 600;
+    word-spacing: 3px;
+    letter-spacing: 1px;
+  }
+}
+@media only screen and (max-width: 450px){
+  .navBar p{
+    font-size: 100%;
+    word-spacing: 2px;
+    letter-spacing: 1px;
+  }
+}
+@media only screen and (max-width: 387px){
+  .navBar p{
+    font-size: 90%;
+  }
+}
+/* Toggle mode Btn */
+/* From Uiverse.io by Madflows */ 
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  --light: #e1e4e9;
+  --dark: #240a7a;
+}
+
+.switch-label {
+  position: absolute;
+  width: 100%;
+  height: 25px;
+  background-color: var(--dark);
+  border-radius: 12.5px;
+  cursor: pointer;
+  border: 3px solid var(--dark);
+  left: 0;
+}
+
+.checkbox {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12.5px; 
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  left: 0;
+}
+
+.checkbox:checked ~ .slider {
+  background-color: var(--light);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 5px; 
+  left: 5px; 
+  width: 12.5px; 
+  height: 12.5px; 
+  border-radius: 50%;
+  -webkit-box-shadow: inset 6px -2px 0px 0px var(--light);
+  box-shadow: inset 6px -2px 0px 0px var(--light);
+  background-color: var(--dark);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.checkbox:checked ~ .slider::before {
+  -webkit-transform: translateX(25px);
+  -ms-transform: translateX(25px); 
+  transform: translateX(25px); 
+  background-color: var(--dark);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Dark mode Style */
+.dark-mode{
+  background-color: black;
+  color: white;
+}
+.dark-mode .Container .device{
+  background: radial-gradient(circle, #100b5ce9, #15105be9, #231c83e9, #2419c0e9);
+  background-color:#00000065;
+  color: white;
+}
+.dark-mode .navBar{
+  background-color: rgba(0, 70, 192, 0.942);
+}
+.dark-mode .Container .device:hover,
+.dark-mode .Container .device:active{
+    background-color: #085b61;
+    cursor: pointer;
+}
+.dark-mode .notification{
+  color: white;
+  border: 2px solid rgb(255, 255, 255);
+  box-shadow: 0 0 5px rgb(255, 255, 255);
+}
+.dark-mode .navBar::after{
+  border-bottom: 2px solid rgb(0, 23, 62); 
+  box-shadow: 0 10px 70px rgb(82, 139, 255);
+}
+/*************/

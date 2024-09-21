@@ -53,12 +53,11 @@ var opts = {
     limitMax: false,     // If false, max value increases automatically if value > maxValue
     limitMin: false,     // If true, the min value of the gauge will be fixed
     colorStart: '#6F6EA0',   // Colors
-    colorStop: '#62e5ff',    // Experiment with colors
+    colorStop: '#a354bb',    // Experiment with colors
     strokeColor: '#FFFF50',  // Stroke color
     generateGradient: true,
     highDpiSupport: true,     // High resolution support
 };
-
 
 var gauge = new Donut(tempGauge).setOptions(opts);
 gauge.maxValue = 50; // Set max gauge value
@@ -66,6 +65,7 @@ gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
 gauge.animationSpeed = 32; // Set animation speed (32 is default value)
 
 /* Notifications */
+let notify = document.querySelector(".notification");
 let nav = document.querySelector(".navBar");
 let msg = "No messages found"; //Default msg
 let msgp = document.getElementById("msgP");
@@ -95,6 +95,39 @@ client.on('message', (topic, message) => {
     }
   }
 });
+/* Water Level */
+import { FluidMeter } from "/Fluids.js";
+var fm3 = new FluidMeter();
+fm3.init({
+  targetContainer: document.getElementById("fluid-meter-3"),
+  fillPercentage: 45,
+  options: {
+    fontSize: "30px",
+    drawPercentageSign: true,
+    drawBubbles: true,
+    size: 200,
+    borderWidth: 5,
+    backgroundColor: "#195F99",
+    foregroundColor: "#192F99",
+    foregroundFluidLayer: {
+      fillStyle: "#16E1FF",
+      angularSpeed: 30,
+      maxAmplitude: 5,
+      frequency: 30,
+      horizontalSpeed: -20
+    },
+    backgroundFluidLayer: {
+      fillStyle: "#4F8FC6",
+      angularSpeed: 100,
+      maxAmplitude: 3,
+      frequency: 22,
+      horizontalSpeed: 20
+    }
+  }
+});
+//Action do here
+fm3.setPercentage(55); 
+
 setInterval(() => {
   gauge.set(sound); // Set the gauge value to 0
   tempVal.textContent = Math.floor(sound).toFixed(2);
@@ -105,10 +138,23 @@ setInterval(() => {
     
   }
 }, 1000);
-nav.addEventListener("click", () => {
+notify.addEventListener("click", () => {
   if (msg) {
     nav.classList.toggle("show-msg");
     nav.classList.remove("show-notify");
     msgp.innerText = msg;
   }
 });
+/* Dark Mode */
+let toggleModeBtn = document.querySelector(".checkbox");
+
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark-mode");
+  toggleModeBtn.checked = true; 
+}
+
+toggleModeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+  localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+});
+/*****************/
