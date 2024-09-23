@@ -1,19 +1,139 @@
 const tempGauge = document.getElementById('temp');
 const tempVal = document.getElementById('temp-val');
 // Initialize the MQTT client and connect to the HiveMQ Cloud broker using WebSocket (wss://)
-const client = mqtt.connect('wss://3bb3497d4e2c468d881b469d323d65ee.s1.eu.hivemq.cloud:8884/mqtt', {
-  username: 'mostafa', // Replace with your HiveMQ Cloud username
-  password: '12345678Aa', // Replace with your HiveMQ Cloud password
+// const client = mqtt.connect('wss://3bb3497d4e2c468d881b469d323d65ee.s1.eu.hivemq.cloud:8884/mqtt', {
+//   username: 'mostafa', // Replace with your HiveMQ Cloud username
+//   password: '12345678Aa', // Replace with your HiveMQ Cloud password
+// });
+let client;
+/***************************/
+let dialog = document.querySelector("#dialog");
+let form = document.getElementById("mqtt-form");
+let mqttURLInput = document.getElementById("mqtt-txt");
+let mqttUsernameInput = document.getElementById("mqtt-usr");
+let mqttPasswordInput = document.getElementById("mqtt-pass");
+let changeBtn = document.querySelector("#change-btn");
+let submitBtn = document.querySelector("#submit");
+let cancelBtn = document.querySelector("#cancel");
+
+// Check localStorage for saved data
+let storedURL = localStorage.getItem("MQTT URL");
+let storedUsername = localStorage.getItem("Username");
+let storedPassword = localStorage.getItem("Password");
+
+// Event listener for the Change button
+changeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    dialog.showModal();
+    document.body.style.opacity = 0.3;
+    cancelBtn.style.display = "block";
+    // Pre-fill the inputs with the stored values
+    mqttURLInput.value = storedURL || '';
+    mqttUsernameInput.value = storedUsername || '';
+    mqttPasswordInput.value = storedPassword || '';
+    
+    // Change the submit button text to "Change"
 });
+let url = 'wss://';
+
+// Event listener for form submission
+form.onsubmit = (e) => {
+    e.preventDefault(); // Prevent the form from submitting traditionally
+
+    document.body.style.opacity = 1;
+
+    // Get the values from the form
+    let mqttURL = mqttURLInput.value;
+    let mqttUsername = mqttUsernameInput.value;
+    let mqttPassword = mqttPasswordInput.value;
+
+    // Store the values in localStorage
+    localStorage.setItem("MQTT URL", mqttURL);
+    localStorage.setItem("Username", mqttUsername);
+    localStorage.setItem("Password", mqttPassword);
+  
+    // Close the dialog after submission
+    if (mqttURL.includes("s1.eu.hivemq.cloud")) {
+      storedURL = localStorage.getItem("MQTT URL");
+      storedUsername = localStorage.getItem("Username");
+      storedPassword = localStorage.getItem("Password");
+      if (storedURL) {
+        url += storedURL;
+      }
+        console.log(storedURL);
+        console.log(url);
+        console.log(client);
+        client = mqtt.connect(url, {
+            username: mqttUsername, // Use the newly submitted username
+            password: mqttPassword, // Use the newly submitted password
+        });
+        console.log(client);
+
+    } else {
+        client = mqtt.connect("wss://f316252439c74c82bfcdba8f810b782d.s1.eu.hivemq.cloud:8884/mqtt", {
+            username: 'DarrSh', // Default username
+            password: 'Ma11637341', // Default password
+        });
+    }
+    dialog.close();
+  location.reload();
+};
+/***************************/
+
+// Event listener for the Cancel button
+cancelBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    dialog.close();
+    document.body.style.opacity = 1;
+});
+/**********************************/
+if (storedURL) {
+  url += storedURL;
+  client = mqtt.connect(url, {
+    username: storedUsername, // Use the newly submitted username
+    password: storedPassword, // Use the newly submitted password
+  });
+}
+else{
+  client = mqtt.connect("wss://f316252439c74c82bfcdba8f810b782d.s1.eu.hivemq.cloud:8884/mqtt", {
+      username: 'DarrSh', // Default username
+      password: 'Ma11637341', // Default password
+  });
+}
 
 let sound = 0; // Initialize sound with a default value (so the gauge doesn't start with null)
 
 // MQTT event handlers
+if (client) {
+  client.on('connect', () => {
+      console.log('Connected to MQTT broker');
+      client.subscribe('sound_pollution/db', (err) => {
+          if (!err) {
+              console.log('Subscribed to sound_pollution/db topic');
+          } else {
+              console.error('Failed to subscribe:', err);
+          }
+      });
+  });
+
+  // Receive messages from the MQTT broker and update the sound value
+  client.on('message', (topic, message) => {
+      if (topic === 'sound_pollution/db') {
+          sound = parseFloat(message.toString()); // Update the sound variable
+          if (!isNaN(sound)) {
+              console.log('Valid sound value received:', sound);
+          } else {
+              console.error('Invalid sound value received:', message.toString());
+          }
+      }
+  });
+
+  // MQTT event handlers
 client.on('connect', () => {
   console.log('Connected to MQTT broker');
-  client.subscribe('sound_pollution/db', (err) => {
+  client.subscribe('sound_message', (err) => {
     if (!err) {
-      console.log('Subscribed to sound_pollution/db topic');
+      console.log('Subscribed to sound_message topic');
     } else {
       console.error('Failed to subscribe:', err);
     }
@@ -22,23 +142,115 @@ client.on('connect', () => {
 
 // Receive messages from the MQTT broker and update the sound value
 client.on('message', (topic, message) => {
-  console.log('Received message on topic:', topic, 'with payload:', message.toString());
-
-  if (topic === 'sound_pollution/db') {
-    sound = parseFloat(message.toString()); // Update the sound variable
-    if (!isNaN(sound)) {
-      console.log('Valid sound value received:', sound);
+  if (topic === 'sound_message') {
+    msg = message.toString(); // Update the sound variable
+    if (msg) {
+      console.log('Valid MSG from sound LVL received: ', msg);
     } else {
-      console.error('Invalid sound value received:', message.toString());
+      console.error('Invalid MSG received: ', message.toString());
     }
   }
 });
+client.on('connect', () => {
+  console.log('Connected to MQTT broker');
+  client.subscribe('temperature', (err) => {
+    if (!err) {
+      console.log('Subscribed to temperature topic');
+    } else {
+      console.error('Failed to subscribe:', err);
+    }
+  });
+});
+
+client.on('message', (topic, message) => {
+  
+  if (topic === 'temperature') {
+    let numbers = message.toString().match(/\d+(\.\d+)?/g).map(Number);
+    temperature_val.textContent = numbers[0]; // Update the temp value
+    humidity_val.textContent = numbers[1];
+  }
+});
+// MQTT connection and subscription
+client.on('connect', () => {
+  console.log('Connected to MQTT broker');
+  client.subscribe('soil', (err) => {
+    if (!err) {
+      console.log('Subscribed to soil topic');
+    } else {
+      console.error('Failed to subscribe:', err);
+    }
+  });
+});
+
+// Receive and process MQTT message
+client.on('message', (topic, message) => {
+  if (topic === 'soil') {
+    // soil_val = parseFloat(message.toString()); // Update soil_val from sensor data
+    // if (soil_val >= 0 && soil_val <= 100) {
+    //   val_of10 = soil_val / 10;
+    //   val_rounded = Math.round(val_of10);
+    //   plantMoisture.setAttribute('data-moisture', val_rounded*10);  // Set attribute to the actual soil value
+    // }
+    // console.log('Soil moisture value:', val_rounded*10);
+    /*******************/
+    soil_val = message.toString();
+    if(soil_val.includes("wet")||soil_val.includes("WET")||soil_val.includes("Wet")){
+      plantMoisture.setAttribute('data-moisture', 100);
+      moisture_val.innerHTML = "Soil is WET!!";
+      moisture_val.style.color = "red";
+    }
+    else if(soil_val.includes("dry")||soil_val.includes("DRY")||soil_val.includes("Dry")){
+      plantMoisture.setAttribute('data-moisture', 0);
+      moisture_val.innerHTML = "Soil is Dry!!";
+      moisture_val.style.color = "red";
+    }
+    else{
+      plantMoisture.setAttribute('data-moisture', 50);
+      moisture_val.innerHTML = "Soil is Normal";
+      moisture_val.style.color = "green";
+    }
+    console.log('Soil moisture value:', soil_val);
+  }
+});
+client.on('connect', () => {
+  console.log('Connected to MQTT broker');
+  client.subscribe('led', (err) => {
+    if (!err) {
+      console.log('Subscribed to led topic');
+    } else {
+      console.error('Failed to subscribe:', err);
+    }
+  });
+});
+
+client.on('message', (topic, message) => {
+  if (topic === 'led') {
+    if(message.toString().includes("ON")||message.toString().includes("on")||message.toString().includes("On")){
+      motionDetect.style.display = "block";
+      motionNoDetect.style.display = "none";
+    }
+    else if(message.toString().includes("OFF")||message.toString().includes("off")||message.toString().includes("Off")){
+      motionDetect.style.display = "none";
+      motionNoDetect.style.display = "block";
+    }
+  }
+});
+client.on('message', (topic, message) => {
+  console.log('Received message on topic:', topic, 'with payload:', message.toString());
+});
+}
 
 // Set an interval to update the gauge every 1 second with the latest sound value
+// let flag = 0;
 // setInterval(() => {
-    // ++sound;
-    // console.log(sound);
-// }, 1500); // 1 second interval
+//     if(sound >= 25 || flag==0){
+//       flag = 1;
+
+//     }else{
+//       flag = 0;
+//     }
+//     console.log(sound);
+// }, 500); // 1 second interval
 
 // Set up the gauge (using the code you provided)
 var opts = {
@@ -70,72 +282,72 @@ let nav = document.querySelector(".navBar");
 let msg = "No messages found"; //Default msg
 let msgp = document.getElementById("msgP");
 
-// MQTT event handlers
-client.on('connect', () => {
-  console.log('Connected to MQTT broker');
-  client.subscribe('sound_message', (err) => {
-    if (!err) {
-      console.log('Subscribed to sound_message topic');
-    } else {
-      console.error('Failed to subscribe:', err);
-    }
-  });
-});
+// // MQTT event handlers
+// client.on('connect', () => {
+//   console.log('Connected to MQTT broker');
+//   client.subscribe('sound_message', (err) => {
+//     if (!err) {
+//       console.log('Subscribed to sound_message topic');
+//     } else {
+//       console.error('Failed to subscribe:', err);
+//     }
+//   });
+// });
 
-// Receive messages from the MQTT broker and update the sound value
-client.on('message', (topic, message) => {
-  console.log('Received message on topic:', topic, 'with payload:', message.toString());
-
-  if (topic === 'sound_message') {
-    msg = message.toString(); // Update the sound variable
-    if (msg) {
-      console.log('Valid MSG from sound LVL received: ', msg);
-    } else {
-      console.error('Invalid MSG received: ', message.toString());
-    }
-  }
-});
-/* Water Level */
-import { FluidMeter } from "/Fluids.js";
-var fm3 = new FluidMeter();
-fm3.init({
-  targetContainer: document.getElementById("fluid-meter-3"),
-  fillPercentage: 45,
-  options: {
-    fontSize: "30px",
-    drawPercentageSign: true,
-    drawBubbles: true,
-    size: 200,
-    borderWidth: 5,
-    backgroundColor: "#195F99",
-    foregroundColor: "#192F99",
-    foregroundFluidLayer: {
-      fillStyle: "#16E1FF",
-      angularSpeed: 30,
-      maxAmplitude: 5,
-      frequency: 30,
-      horizontalSpeed: -20
-    },
-    backgroundFluidLayer: {
-      fillStyle: "#4F8FC6",
-      angularSpeed: 100,
-      maxAmplitude: 3,
-      frequency: 22,
-      horizontalSpeed: 20
-    }
-  }
-});
-//Action do here
-fm3.setPercentage(55); 
-
+// // Receive messages from the MQTT broker and update the sound value
+// client.on('message', (topic, message) => {
+//   if (topic === 'sound_message') {
+//     msg = message.toString(); // Update the sound variable
+//     if (msg) {
+//       console.log('Valid MSG from sound LVL received: ', msg);
+//     } else {
+//       console.error('Invalid MSG received: ', message.toString());
+//     }
+//   }
+// });
+// /* Water Level */
+// import { FluidMeter } from "/Fluids.js";
+// var fm3 = new FluidMeter();
+// fm3.init({
+//   targetContainer: document.getElementById("fluid-meter-3"),
+//   fillPercentage: 45,
+//   options: {
+//     fontSize: "30px",
+//     drawPercentageSign: true,
+//     drawBubbles: true,
+//     size: 200,
+//     borderWidth: 5,
+//     backgroundColor: "#195F99",
+//     foregroundColor: "#192F99",
+//     foregroundFluidLayer: {
+//       fillStyle: "#16E1FF",
+//       angularSpeed: 30,
+//       maxAmplitude: 5,
+//       frequency: 30,
+//       horizontalSpeed: -20
+//     },
+//     backgroundFluidLayer: {
+//       fillStyle: "#4F8FC6",
+//       angularSpeed: 100,
+//       maxAmplitude: 3,
+//       frequency: 22,
+//       horizontalSpeed: 20
+//     }
+//   }
+// });
+// //Action do here
+// fm3.setPercentage(55); 
+let soundNotfiyFlag = 0;
 setInterval(() => {
   gauge.set(sound); // Set the gauge value to 0
   tempVal.textContent = Math.floor(sound).toFixed(2);
-  if (sound >= 25) {
+  
+  if (sound >= 25 && !nav.classList.contains("show-notify") && soundNotfiyFlag==0) {
     nav.classList.add("show-notify");
+    soundNotfiyFlag = 1;
   }
-  else{
-    
+  else if (sound < 25 && !nav.classList.contains("show-notify")){
+    soundNotfiyFlag = 0;
   }
 }, 1000);
 notify.addEventListener("click", () => {
@@ -143,6 +355,7 @@ notify.addEventListener("click", () => {
     nav.classList.toggle("show-msg");
     nav.classList.remove("show-notify");
     msgp.innerText = msg;
+    soundNotfiyFlag = 1;
   }
 });
 /* Dark Mode */
@@ -158,3 +371,108 @@ toggleModeBtn.addEventListener("click", () => {
   localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
 });
 /*****************/
+let temperature_val = document.querySelector("#temperature-val");
+let humidity_val = document.querySelector("#humidity-val");
+// setInterval(() => {
+//   temperature_val.textContent = Math.floor(Math.random() * 100);
+// }, 1000);
+// Receive messages from the MQTT broker and update the sound value
+// client.on('connect', () => {
+//   console.log('Connected to MQTT broker');
+//   client.subscribe('temperature', (err) => {
+//     if (!err) {
+//       console.log('Subscribed to temperature topic');
+//     } else {
+//       console.error('Failed to subscribe:', err);
+//     }
+//   });
+// });
+
+// client.on('message', (topic, message) => {
+  
+//   if (topic === 'temperature') {
+//     let numbers = message.toString().match(/\d+(\.\d+)?/g).map(Number);
+//     temperature_val.textContent = numbers[0]; // Update the temp value
+//     humidity_val.textContent = numbers[1];
+//   }
+// });
+/*****************/
+let soil_val = 0;
+let val_of10 = 0;
+let val_rounded = 0;
+let plantMoisture = document.querySelector(".device3");
+plantMoisture.classList.add("soil-lvl");
+let moisture_val = document.querySelector("#Moisture-detect");
+// // MQTT connection and subscription
+// client.on('connect', () => {
+//   console.log('Connected to MQTT broker');
+//   client.subscribe('soil', (err) => {
+//     if (!err) {
+//       console.log('Subscribed to soil topic');
+//     } else {
+//       console.error('Failed to subscribe:', err);
+//     }
+//   });
+// });
+
+// // Receive and process MQTT message
+// client.on('message', (topic, message) => {
+//   if (topic === 'soil') {
+//     // soil_val = parseFloat(message.toString()); // Update soil_val from sensor data
+//     // if (soil_val >= 0 && soil_val <= 100) {
+//     //   val_of10 = soil_val / 10;
+//     //   val_rounded = Math.round(val_of10);
+//     //   plantMoisture.setAttribute('data-moisture', val_rounded*10);  // Set attribute to the actual soil value
+//     // }
+//     // console.log('Soil moisture value:', val_rounded*10);
+//     /*******************/
+//     soil_val = message.toString();
+//     if(soil_val.includes("wet")||soil_val.includes("WET")||soil_val.includes("Wet")){
+//       plantMoisture.setAttribute('data-moisture', 100);
+//       moisture_val.innerHTML = "Soil is WET!!";
+//       moisture_val.style.color = "red";
+//     }
+//     else if(soil_val.includes("dry")||soil_val.includes("DRY")||soil_val.includes("Dry")){
+//       plantMoisture.setAttribute('data-moisture', 0);
+//       moisture_val.innerHTML = "Soil is Dry!!";
+//       moisture_val.style.color = "red";
+//     }
+//     else{
+//       plantMoisture.setAttribute('data-moisture', 50);
+//       moisture_val.innerHTML = "Soil is Normal";
+//       moisture_val.style.color = "green";
+//     }
+//     console.log('Soil moisture value:', soil_val);
+//   }
+// });
+/****************************************/
+let motionNoDetect = document.querySelector("#Motion-nodetect-str");
+let motionDetect = document.querySelector("#Motion-detect-str");
+
+// client.on('connect', () => {
+//   console.log('Connected to MQTT broker');
+//   client.subscribe('led', (err) => {
+//     if (!err) {
+//       console.log('Subscribed to led topic');
+//     } else {
+//       console.error('Failed to subscribe:', err);
+//     }
+//   });
+// });
+
+// client.on('message', (topic, message) => {
+//   if (topic === 'led') {
+//     if(message.toString().includes("ON")||message.toString().includes("on")||message.toString().includes("On")){
+//       motionDetect.style.display = "block";
+//       motionNoDetect.style.display = "none";
+//     }
+//     else if(message.toString().includes("OFF")||message.toString().includes("off")||message.toString().includes("Off")){
+//       motionDetect.style.display = "none";
+//       motionNoDetect.style.display = "block";
+//     }
+//   }
+// });
+
+// client.on('message', (topic, message) => {
+//   console.log('Received message on topic:', topic, 'with payload:', message.toString());
+// });
