@@ -20,7 +20,7 @@ body
     width: 100%;
     height: fit-content;
     margin: auto;
-    margin-top: 90px;
+    margin-top: 70px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows:repeat(3, 300px);
@@ -318,30 +318,10 @@ body
   color: yellow;
 }
 /*************/
-/* .plant-moisture-lvl{
-  position: absolute;
-  background-color: #3db4bc;
-  width: 10px;
-  height: 200px;
-  top: 80px;
-  left: 60px;
-  border-radius: 20px 20px 20px 20px / 10px 10px 10px 10px;
-  line-height: 2.2rem;
-  letter-spacing: 0.2rem;
-  color: #fea25c;
-  transition: all 0.5s;
+.device2 span{
+  padding: 10px;
 }
-.soil-lvl .plant-moisture-lvl::after{
-  content: "";
-  position: absolute;
-  width: inherit;
-  height: 70%;
-  max-height: 200px;
-  left: 0;
-  bottom: 0;
-  background-color: rgba(194, 0, 208, 0.55);
-  border-radius: inherit;
-} */
+/*************/
 .plant-img{
   position: relative;
   width: 375px;
@@ -556,7 +536,7 @@ dialog::backdrop {
 #dialog {
   box-shadow: 0 0 10px 0px #116399;
   position: fixed; /* Fixed position so the dialog remains on top */
-  top: 5%; /* Aligns the dialog at the top of the viewport */
+  top: 6%; /* Aligns the dialog at the top of the viewport */
   left: 50%; /* Centers the dialog horizontally */
   transform: translateX(-50%); /* Corrects the centering offset */
   margin: 0; /* Remove any default margins */
@@ -685,9 +665,9 @@ dialog::backdrop {
 /* From Uiverse.io by kosedagyazilim */ 
 .change-button {
   display: inline-block;
-  padding: 5px;
+  padding: 8px;
   margin: 5px 0px 10px 5%;
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
   color: #fff;
   background-image: linear-gradient(to bottom right, #00c6ff, #0072ff);
@@ -748,7 +728,7 @@ dialog::backdrop {
     "device5";
   }
   .navBar p{
-    font-size: 120%;
+    font-size: 110%;
     margin: auto;
     font-weight: 600;
     word-spacing: 3px;
@@ -763,10 +743,13 @@ dialog::backdrop {
   .wheather-temp-img{
     left: 100px;
   }
+  .change-button{
+    font-size: 10px;
+  }
 }
 @media only screen and (max-width: 521px){
   .navBar p{
-    font-size: 100%;
+    font-size: 95%;
     word-spacing: 2px;
     letter-spacing: 1px;
   }
@@ -785,5 +768,23 @@ dialog::backdrop {
   }
   .wheather-temp-img{
     left: 60px;
+  }
+}
+@media only screen and (max-width: 459px){
+  .navBar p{
+    font-size: 80%;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .plant-img img{
+    width: 28%;
+  }
+  .change-button{
+    padding: 4px;
+  }
+}
+@media only screen and (max-width: 439px){
+  .change-button{
+    padding: 2px;
   }
 }
