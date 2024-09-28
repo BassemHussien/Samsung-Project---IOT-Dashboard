@@ -1,8 +1,3 @@
-// Initialize the MQTT client and connect to the HiveMQ Cloud broker using WebSocket (wss://)
-// const client = mqtt.connect('wss://3bb3497d4e2c468d881b469d323d65ee.s1.eu.hivemq.cloud:8884/mqtt', {
-//   username: 'mostafa', // Replace with your HiveMQ Cloud username
-//   password: '12345678Aa', // Replace with your HiveMQ Cloud password
-// });
 /**************    Varaibles Declarations   ***************/
 const tempGauge = document.getElementById('temp');
 const tempVal = document.getElementById('temp-val');
@@ -109,9 +104,9 @@ form.onsubmit = (e) => {
         console.log(client);
 
     } else {
-        client = mqtt.connect("wss://f316252439c74c82bfcdba8f810b782d.s1.eu.hivemq.cloud:8884/mqtt", {
-            username: 'DarrSh', // Default username
-            password: 'Ma11637341', // Default password
+        client = mqtt.connect("wss://...", {
+            username: '', // Default username
+            password: '', // Default password
         });
     }
     dialog.close();
