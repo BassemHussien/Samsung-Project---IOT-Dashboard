@@ -114,7 +114,7 @@ body
 }
 /* Background Img */
 .background-img{
-  background-image: url(circuit-background.svg);
+  background-image: url(../assests/circuit-background.svg);
   position: fixed;
   width: 100%;
   height: 100vh;
