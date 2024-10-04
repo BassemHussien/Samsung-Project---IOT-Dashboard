@@ -1,55 +1,56 @@
-*
-{
+*{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+    user-select: none;
+    font-family: 'Lucida Sans Unicode';
 }
 
 body
 {
-    color: white;
+    color: rgb(15, 0, 131);
     text-align: center; 
-    background-color: black;
+    background-color: rgb(166, 212, 255);
 }
-h1
-{
-    margin: 30px;
-}
-.container
+.Container
 {
     padding:10px ;
-    border: 3px white solid;
+    border-radius: 5px;
     width: 100%;
     height: fit-content;
     margin: auto;
-    margin-top: 20px;
+    margin-top: 70px;
     display: grid;
-    grid-template-columns: repeat(7,1fr);
-    grid-template-rows:repeat(4,130px);
-    grid-template-areas: 
-    "device1 device1 device2 device2 device3 device4 device4 "
-    "device5 device6 device2 device2 device7 device8 device8"
-    "device9 device9 device10 device10 device11 device11 device12"
-    "device13 device14 device10 device10 device11 device11 device15";
-    gap:10px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows:repeat(3, 300px);
+    grid-template-areas:
+    "device1 device2"
+    "device3 device4"
+    "device5 device5"
+    "device6 device6";
+    gap: 10px;
+    z-index: 1;
 }
-
-.container .device
+.Container .device
 {
-    /* background-color: rgb(9, 143, 0); */
-    background-color:#333;
-    border-radius: 3px;
-    transition: background-color .6s ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  /* background: radial-gradient(circle, #807bcae9, #827ebce9, #6460a5e9, #4957aae9);
+  background-color:#00000065; */
+  background: rgb(195,245,242);
+  background: radial-gradient(circle, rgba(195,245,242,0.8038865204284839) 0%, rgba(214,255,248,0.8711134111847865) 50%, rgba(230,251,255,0.9635503859747023) 100%);
+  color: #001789;
+  border-radius: 8px;
+  padding-top: 20px;
+  transition: background-color .5s ease-in-out;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
 }
-.container .device:hover
-{
+.Container .device:hover,
+.Container .device:active{
     background-color: #085b61;
     cursor: pointer;
-
 }
 .device1
 {
@@ -111,123 +112,686 @@ h1
 {
     grid-area:device15 ;
 }
+/* Background Img */
+.background-img{
+  background-image: url(circuit-background.svg);
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-size: 500px;
+  background-repeat: repeat;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -9999;
+}
+/* Temperature Gauge */
+.temp-gauge {
+    background-color: #ffffff00;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.temperature-gauge{
+  position: relative;
+}
+.temp-val{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-/* From Uiverse.io by andrew-demchenk0 */ 
-.switch {
-    --input-focus: #2d8cf0;
-    --bg-color: #fff;
-    --bg-color-alt: #666;
-    --main-color: #323232;
-    --input-out-of-focus: #ccc;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    width: 70px;
-    height: 36px;
-    margin-top: 20px;
-    transform: translateX(calc(50% - 10px));
-  }
-  
-  .toggle {
-    opacity: 0;
-  }
-  
-  .slider {
-    box-sizing: border-box;
-    border-radius: 100px;
-    border: 2px solid var(--main-color);
-    box-shadow: 4px 4px var(--main-color);
-    position: absolute;
+/* Nav Bar */
+.navBar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  /* background-color: rgba(95, 142, 224, 0.94); */
+  background-color: rgba(164, 218, 252, 0.94);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+.navBar::after{
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  left: 0;
+  top: 0;
+  border-bottom: 2px solid rgb(0, 111, 158); 
+  box-shadow: 0 10px 70px rgb(82, 139, 255);
+  z-index: -1;
+}
+.navBar p{
+  font-size: 150%;
+  margin: auto;
+  font-weight: 600;
+  word-spacing: 5px;
+  letter-spacing: 2px;
+}
+.notification{
+  font-size: 30px;
+  color: rgb(7, 0, 143);
+  border-radius: 35%;
+  cursor: pointer;
+  border: 2px solid rgb(0, 0, 161);
+  box-shadow: 0 0 5px rgb(0, 32, 213);
+  position: relative;
+}
+.notify-ico::after{
+  content: "";
+  display: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: red;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.show-notify .notify-ico::after{
+  display: block;
+}
+.notify-msg{
+  position: absolute;
+  top: 30px;
+  right: -80px;
+  width: 220px;
+  padding: 15px 10px 10px 0;
+  transform: translate(-50%, 0);
+  background-image: linear-gradient(to right top, #b25d8d, #a46298, #9367a0, #816ba5, #6f6fa6, #6177ad, #517fb2, #4287b4, #2c96bb, #19a4be, #20b1bb, #3dbeb5);
+  border-radius: 11% 10% 33% 10% / 10% 0% 70% 10% ;
+  border: 2px solid rgba(34,34,97,1);
+  box-shadow: 0 0 10px rgb(34,34,150);
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+.notify-msg #msgP{
+  color: wheat;
+  font-size: 20px;
+  font-weight: 400;
+  font-family: Arial, sans-serif;
+}
+.show-msg .notify-msg{
+  display: flex;
+}
+
+/* Toggle mode Btn */
+/* From Uiverse.io by Madflows */ 
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  --light: #e1e4e9;
+  --dark: #240a7a;
+}
+
+.switch-label {
+  position: absolute;
+  width: 100%;
+  height: 25px;
+  background-color: var(--dark);
+  border-radius: 12.5px;
+  cursor: pointer;
+  border: 3px solid var(--dark);
+  left: 0;
+}
+
+.checkbox {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12.5px; 
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  left: 0;
+}
+
+.checkbox:checked ~ .slider {
+  background-color: var(--light);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 5px; 
+  left: 5px; 
+  width: 12.5px; 
+  height: 12.5px; 
+  border-radius: 50%;
+  -webkit-box-shadow: inset 6px -2px 0px 0px var(--light);
+  box-shadow: inset 6px -2px 0px 0px var(--light);
+  background-color: var(--dark);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.checkbox:checked ~ .slider::before {
+  -webkit-transform: translateX(25px);
+  -ms-transform: translateX(25px); 
+  transform: translateX(25px); 
+  background-color: var(--dark);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/* Dark mode Style */
+.dark-mode{
+  background-color: black;
+  color: white;
+}
+.dark-mode .Container .device{
+  background: radial-gradient(circle, #100b5ce9, #15105be9, #231c83e9, #2419c0e9);
+  background-color:#00000065;
+  color: white;
+}
+.dark-mode .navBar{
+  background-color: rgba(0, 70, 192, 0.942);
+}
+.dark-mode .Container .device:hover,
+.dark-mode .Container .device:active{
+    background-color: #085b61;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--input-out-of-focus);
-    transition: 0.3s;
+}
+.dark-mode .notification{
+  color: white;
+  border: 2px solid rgb(255, 255, 255);
+  box-shadow: 0 0 5px rgb(255, 255, 255);
+}
+.dark-mode .navBar::after{
+  border-bottom: 2px solid rgb(0, 23, 62); 
+  box-shadow: 0 10px 70px rgb(82, 139, 255);
+}
+.dark-mode .temperature-val{
+  color: yellow;
+}
+/*************/
+.device2 span{
+  padding: 10px;
+}
+/*************/
+.plant-img{
+  position: relative;
+  width: 375px;
+}
+.plant-img img{
+  position: absolute;
+  width: 35%;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+/***********/
+.plant-moisture-lvl {
+  position: absolute;
+  background-color: #3db4bc;
+  width: 10px;
+  height: 230px;
+  top: 60px;
+  left: 60px;
+  border-radius: 20px 20px 20px 20px / 10px 10px 10px 10px;
+  line-height: 2.65rem;
+  letter-spacing: 0.2rem;
+  color: #fea25c;
+  transition: height 0.5s;
+}
+.lvl-dash{
+  position: relative;
+  top: -10px;
+}
+.lvl-vals{
+  display: flex;
+  position: absolute;
+  top: -7px;
+  left: 15px;
+  text-align: start;
+}
+.soil-lvl .plant-moisture-lvl::after {
+  content: "";
+  position: absolute;
+  width: inherit;
+  height: 0%; /* Start from 0 */
+  max-height: 230px;
+  left: 0;
+  bottom: 0;
+  /* background-color: rgba(194, 0, 208, 0.55); */
+  background-color: rgb(204 0 0 / 62%);
+  border-radius: inherit;
+  transition: height 0.5s ease-in-out;
+}
+
+.soil-lvl[data-moisture='0'] .plant-moisture-lvl::after { height: 0%; }
+.soil-lvl[data-moisture='10'] .plant-moisture-lvl::after { height: 10%; }
+.soil-lvl[data-moisture='20'] .plant-moisture-lvl::after { height: 20%; }
+.soil-lvl[data-moisture='30'] .plant-moisture-lvl::after { height: 30%; }
+.soil-lvl[data-moisture='40'] .plant-moisture-lvl::after { height: 40%; }
+.soil-lvl[data-moisture='50'] .plant-moisture-lvl::after { height: 50%; }
+.soil-lvl[data-moisture='60'] .plant-moisture-lvl::after { height: 60%; }
+.soil-lvl[data-moisture='70'] .plant-moisture-lvl::after { height: 70%; }
+.soil-lvl[data-moisture='80'] .plant-moisture-lvl::after { height: 80%; }
+.soil-lvl[data-moisture='90'] .plant-moisture-lvl::after { height: 90%; }
+.soil-lvl[data-moisture='100'] .plant-moisture-lvl::after { height: 100%; }
+
+.device3 > span{  /* Style the Direct span Child of .device3 */
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 600;
+  width: 100px;
+  position: absolute;
+  bottom: 20px;
+  right: 28px;
+  color: green;
+  border: #085b61 2px solid;
+  border-radius: 20%;
+}
+/************************************/
+.device4{
+  position: relative;
+}
+.wheather-temp-img{
+  position: absolute;
+  width: 120px;
+  top: 150px;
+  left: 80px;
+}
+.wheather-temp-img img{
+  position: absolute;
+  top: -30px;
+  left: 6px;
+  width: 80%;
+}
+.temperature-val{
+  position: absolute;
+  left: 0px;
+  top: 55px;
+  font-size: 30px;
+  color: rgb(0, 20, 202);
+}
+/**********************/
+.humidity-img{
+  position: absolute;
+  width: 120px;
+  top: 150px;
+  right: 70px;
+}
+.humidity-img img{
+  position: absolute;
+  top: -30px;
+  left: 6px;
+  width: 70%;
+}
+/**************************/
+/* Garage */
+.garage{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: 50%;
+  border: 2px solid ;
+  top: 50%;
+  transform: translateY(-30%);
+  border-radius: 10px;
+  font-size: 30px;
+  font-family: Verdana;
+}
+.garage-status{
+  left: 15%;
+}
+.garage-cars-number{
+  right: 15%;
+}
+.garage h3{
+  position: absolute;
+  top: 0;
+}
+.garage span{
+  margin-top: 30px;
+  color: green;
+}
+/**********************************/
+/* From Uiverse.io by mrhyddenn */
+.form__group {
+  position: relative;
+  top: 20px;
+  text-align: start;
+  padding: 20px 0 0;
+  width: 100%;
+  max-width: 220px;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 144%;
+  border: none;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 14px;
+  color: #003b65;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.form__field::placeholder {
+  color: transparent;
+}
+
+.form__field:placeholder-shown ~ .form__label {
+  font-size: 14px;
+  cursor: text;
+  top: 20px;
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 14px;
+  color: #9b9b9b;
+  pointer-events: none;
+  width: 250px;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #116399, #38caef);
+  border-image-slice: 1;
+}
+
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 14px;
+  color: #38caef;
+  font-weight: 700;
+}
+
+/* reset input */
+.form__field:required, .form__field:invalid {
+  box-shadow: none;
+}
+dialog::backdrop {
+  background-color: #8ce8ff60; /* Red background with 50% opacity */
+}
+
+#dialog {
+  box-shadow: 0 0 10px 0px #116399;
+  position: fixed; /* Fixed position so the dialog remains on top */
+  top: 6%; /* Aligns the dialog at the top of the viewport */
+  left: 50%; /* Centers the dialog horizontally */
+  transform: translateX(-50%); /* Corrects the centering offset */
+  margin: 0; /* Remove any default margins */
+  background-color: rgb(234, 255, 248);
+}
+
+/***********/
+/* From Uiverse.io by ryota1231 */ 
+.submit-btn{
+  position: absolute;
+  right: 0;
+}
+.cancel-btn{
+  position: absolute;
+  left: 0;
+}
+.animated-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 20px;
+  border: 4px solid;
+  border-color: transparent;
+  font-size: 16px;
+  background-color: rgb(0, 131, 255);
+  border-radius: 100px;
+  font-weight: 600;
+  color: #e8e8e8;
+  box-shadow: 0 0 5px 2px #5fcfff;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button svg {
+  position: absolute;
+  width: 24px;
+  fill: #1f387e;
+  z-index: 9;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .arr-1 {
+  right: 5px;
+}
+
+.animated-button .arr-2 {
+  left: -18%;
+}
+
+.animated-button .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: #c5e5e4;
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .text {
+  position: relative;
+  z-index: 1;
+  transform: translateX(-12px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button:hover {
+  box-shadow: 0 0 0 12px transparent;
+  color: #212121;
+  border-radius: 12px;
+}
+
+.animated-button:hover .arr-1 {
+  right: -25%;
+}
+
+.animated-button:hover .arr-2 {
+  left: 10px;
+}
+
+.animated-button:hover .text {
+  transform: translateX(12px);
+}
+
+.animated-button:hover svg {
+  fill: #1f387e;
+}
+
+.animated-button:active {
+  scale: 0.95;
+  box-shadow: 0 0 0 4px #35a8f6;
+}
+
+.animated-button:hover .circle {
+  width: 220px;
+  height: 220px;
+  opacity: 1;
+}
+
+.cancel-btn .animated-button .arr-1 {
+  transform: rotate(180deg);
+  right: -18%;
+} 
+.cancel-btn .animated-button .arr-2 {
+  transform: rotate(180deg);
+  left: 5px;
+}
+.cancel-btn .animated-button .text {
+  transform: translateX(12px);
+}
+.cancel-btn .animated-button:hover .arr-1 {
+  right: 10%;
+}
+.cancel-btn .animated-button:hover .arr-2 {
+  left: -25%;
+}
+.cancel-btn .animated-button:hover .text {
+  transform: translateX(-12px);
+}
+/************************/
+/* From Uiverse.io by kosedagyazilim */ 
+.change-button {
+  display: inline-block;
+  padding: 8px;
+  margin: 5px 0px 10px 5%;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #fff;
+  background-image: linear-gradient(to bottom right, #00c6ff, #0072ff);
+  border: none;
+  border-radius: 40px;
+  box-shadow: 0px 4px 0px #0072ff;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.change-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 0px #0072ff;
+}
+
+.change-button:active {
+  transform: translateY(0px);
+  box-shadow: none;
+  background-image: linear-gradient(to bottom right, #0072ff, #00c6ff);
+}
+
+.change-button:before,
+.change-button:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.change-button:before {
+  top: -3px;
+  left: -3px;
+  border-radius: 40px;
+  border-top: 3px solid #fff;
+  border-left: 3px solid #fff;
+}
+
+.change-button:after {
+  bottom: -3px;
+  right: -3px;
+  border-radius: 40px;
+  border-bottom: 3px solid #fff;
+  border-right: 3px solid #fff;
+}
+.gas-val{
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Media Query */
+@media only screen and (max-width: 779px){
+  .Container
+  {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows:repeat(5, 300px);
+    grid-template-areas: 
+    "device1"
+    "device2"
+    "device3"
+    "device4"
+    "device5"
+    "device6";
   }
-  
-  .slider:before {
-    content: "off";
-    box-sizing: border-box;
-    height: 30px;
-    width: 30px;
-    position: absolute;
-    left: 2px;
-    bottom: 1px;
-    border: 2px solid var(--main-color);
-    border-radius: 100px;
-    background-color: var(--bg-color);
-    color: var(--main-color);
-    font-size: 14px;
+  .navBar p{
+    font-size: 110%;
+    margin: auto;
     font-weight: 600;
-    text-align: center;
-    line-height: 25px;
-    transition: 0.3s;
+    word-spacing: 3px;
+    letter-spacing: 1px;
+  }
+  .garage span{
+    margin-top: 60px;
+  }
+  .humidity-img{
+    right: 90px;
+  }
+  .wheather-temp-img{
+    left: 100px;
+  }
+  .change-button{
+    font-size: 10px;
+  }
+}
+@media only screen and (max-width: 521px){
+  .navBar p{
+    font-size: 95%;
+    word-spacing: 2px;
+    letter-spacing: 1px;
+  }
+}
+@media only screen and (max-width: 481px){
+  .navBar p{
+    font-size: 90%;
   }
   
-  .toggle:checked + .slider {
-    background-color: var(--input-focus);
-    transform: translateX(-32px);
+.plant-img img{
+    width: 30%;
+    top: 30px;
   }
-  
-  .toggle:checked + .slider:before {
-    content: "on";
-    transform: translateX(32px);
+  .humidity-img{
+    right: 40px;
   }
-
-
-
-  /* Media Query */
-
-  @media only screen and (max-width: 1200px) {
-    .container {
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: repeat(4, 130px);
-        grid-template-areas:
-        "device1 device1 device2 device2 device3"
-        "device5 device6 device2 device2 device7"
-        "device9 device9 device10 device10 device11"
-        "device13 device14 device10 device10 device8";
-    }
+  .wheather-temp-img{
+    left: 60px;
+  }
 }
-
-@media only screen and (max-width: 900px) {
-    .container {
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: repeat(6, 130px);
-        grid-template-areas:
-        "device1 device1 device2"
-        "device5 device6 device3"
-        "device9 device9 device4"
-        "device10 device10 device7"
-        "device11 device12 device8"
-        "device13 device14 device15";
-    }
+@media only screen and (max-width: 459px){
+  .navBar p{
+    font-size: 80%;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .plant-img img{
+    width: 28%;
+  }
+  .change-button{
+    padding: 4px;
+  }
 }
-
-@media only screen and (max-width: 600px) {
-    .container {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(15, 130px);
-        grid-template-areas:
-        "device1"
-        "device2"
-        "device3"
-        "device4"
-        "device5"
-        "device6"
-        "device7"
-        "device8"
-        "device9"
-        "device10"
-        "device11"
-        "device12"
-        "device13"
-        "device14"
-        "device15";
-    }
+@media only screen and (max-width: 439px){
+  .change-button{
+    padding: 2px;
+  }
 }

@@ -4,34 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart-City Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gauge.js/1.3.6/gauge.min.js"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Oxygen|Raleway&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Smart City IoT Dashboard</h1>
-    <div class="container">
+    <dialog id="dialog" style="border-radius: 20px; border: 2px solid #0064a7; outline: none; width: 360px;">
+        <div class="dialog-container" style="position: relative; height: 400px; width: 100%; padding: 20px; ">
+            <span style="color: #116399; font-size: 18px; font-weight: 800;width: 100%; position: relative; top: 0;margin-bottom: 10px;">Websocket MQTT Verification</span>
+            <form id="mqtt-form" style="display: flex; flex-direction: column;">
+                <div class="mqtt-cloud-txt form__group" style="display: flex; flex-direction: column;">
+                    <input type="input" name="MQTT Cloud URL" id="mqtt-txt" required="" class="form__field" placeholder="Enter MQTT Websocket Cloud Link">
+                    <label for="mqtt-txt" class="form__label">Enter MQTT Websocket Cloud Link</label>
+                </div>
+                <div class="mqtt-cloud-user form__group" style="display: flex; flex-direction: column; margin-top: 20px;">
+                    <input type="text" name="UserName" id="mqtt-usr" required="" class="form__field" placeholder="Enter Username">
+                    <label for="mqtt-usr" class="form__label">Enter Username</label>
+                </div>
+                <div class="mqtt-cloud-pass form__group" style="display: flex; flex-direction: column; margin-top: 20px;">
+                    <input type="password" name="Password" id="mqtt-pass" required="" class="form__field" placeholder="Enter Password">
+                    <label for="mqtt-pass" class="form__label">Enter Password</label>
+                </div>
+                <div class="mqtt-cloud-submit" style="margin-top: 20px;">
+                    <!-- <input type="submit" id="submit" value="Enter" style="width: 70px; height: 30px; border-radius: 10px; border: 2px solid red; outline: none; position: absolute; right: 0; bottom: 0px;"> -->
+                    <div class="submit-btn" id="submit" style="position: absolute; top: 320px; right: 20px;">
+                        <button class="animated-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
+                              <path
+                                d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                              ></path>
+                            </svg>
+                            <span class="text">E N T R Y</span>
+                            <span class="circle"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
+                              <path
+                                d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                              ></path>
+                            </svg>
+                          </button>
+                    </div>
+                    <!-- <input type="button" id="cancel" value="Cancel" style="width: 70px; height: 30px; border-radius: 10px; border: 2px solid red; outline: none; position: absolute; left: 0; bottom: 0px;"> -->
+                    <div class="cancel-btn" id="cancel" style="position: absolute; top: 320px; left: 20px;">
+                        <button class="animated-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
+                              <path
+                                d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                              ></path>
+                            </svg>
+                            <span class="text">C A N C E L</span>
+                            <span class="circle"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
+                              <path
+                                d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                              ></path>
+                            </svg>
+                          </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </dialog>
+    <nav class="navBar">
+        <div class="toggle-dark-mode">
+            <div class="toggle-switch" >
+            <label class="switch-label">
+                <input type="checkbox" class="checkbox" id="toggle-switch">
+                <span class="slider"></span>
+            </label>
+            </div>
+        </div>
+    <button class="change-button" id="change-btn" style="outline: none;">Change Cloud</button>
 
-        <div class="device1 device"> device1 <label class="switch">
-            <input checked="" type="checkbox" class="toggle">
-            <span class="slider"></span>
-            <span class="card-side"></span>
-          </label> </div>
-        <div class="device2 device"> device2 </div>
-        <div class="device3 device"> device3 </div>
-        <div class="device4 device"> device4 </div>
-        <div class="device5 device"> device5 </div>
-        <div class="device6 device"> device6 </div>
-        <div class="device7 device"> device7 </div>
-        <div class="device8 device"> device8 </div>
-        <div class="device9 device"> device9 </div>
-        <div class="device10 device">device10 </div>
-        <div class="device11 device">device11 </div>
-        <div class="device12 device">device12 </div>
-        <div class="device13 device">device13 </div>
-        <div class="device14 device">device14 </div>
-        <div class="device15 device">device15 </div>
+        <p>Smart City | IoT Dashboard</p>
+        <div class="notify-ico">
+            <ion-icon name="notifications-outline" class="notification"></ion-icon>
+        </div>
+        <div class="notify-msg"><p id="msgP"></p></div>
+    </nav>
+    <div class="background-img"></div>
+    <div class="Container">
 
+        <div class="device1 device"> 
+            <h2>Sound Level</h2> 
+            <div class="temperature-gauge gauges">
+                <canvas id="temp" class="temp-gauge" height="200px"></canvas>
+                <span class="temp-val">(<span id="temp-val">0</span>dB)</span>
+            </div> 
+        </div>
+        <div class="device2 device"> 
+            <h2>Motion Detection</h2>
+            <span id="Motion-detect-str" style="font-size: 60px; color: red; display: none;">There is Motion!!</span>
+            <span id="Motion-nodetect-str" style="font-size: 60px; color: green;">No Motion</span>
+        </div>
+        <div class="device3 device"> 
+            <h2>Land Moisture Level</h2>
+            <div class="plant-moisture-lvl">
+                <span class="lvl-dash">
+                    - <br> - <br> - <br> - <br> - <br> -
+                    <span class="lvl-vals">
+                        100% <br> 80% <br> 60% <br> 40% <br> 20% <br> 0%
+                    </span>
+                </span>
+                
+            </div>
+            <div class="plant-img">
+                <img src="lush-green-potted-plant-illustration.png" alt="plat-img">
+            </div>
+            <span id="Moisture-detect">Soil is Normal</span>
+        </div>
+        <div class="device4 device"> 
+        <h2>Temperature and Humidity</h2>
+        <div class="wheather-temp-img">
+            <img src="weather02-512.webp" alt="temp-img">
+            <span class="temperature-val"><span id="temperature-val">0</span> °C</span>
+        </div>
+        <div class="humidity-img">
+            <img src="humidity.png" alt="humidity">
+            <span class="temperature-val"><span id="humidity-val">0</span> %</span>
+        </div>
+        </div>
+        <div class="device5 device"> 
+            <h2>Garage Monitoring System</h2>
+            <div class="garage-status garage">
+                <h3>Garage Status</h3>
+                <span id="garage-status">Empty</span>
+            </div>
+            <div class="garage-cars-number garage">
+                <h3>Cars Number</h3>
+                <span id="garage-car-num">0</span>
+            </div>
+        </div>
+        <!-- new -->
+        <div class="device6 device"> 
+            <h2>Gas Sensor</h2>
+            
+            <div class="gas-gauge gauges">
+                <canvas id="gas" class="gas-gauge" height="200px"></canvas>
+                <span class="gas-val">(<span id="gas-val">0</span>)</span>
+            </div> 
+        </div>
     </div>
-    
- <script src="js/script.js"></script>
+	<script src="script.js"></script>
 </body>
 </html>
